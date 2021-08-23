@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.hotelapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+<!-- Define ACCESS_FINE_LOCATION if you will use enableHighAccuracy=true  -->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Include required permissions for Google Maps API to run. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<!-- Define ACCESS_COARSE_LOCATION if you will use enableHighAccuracy=false  -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <application
+      android:name=".MainApplication"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:allowBackup="false"
+      android:theme="@style/AppTheme">
+      <meta-data
+       android:name="com.google.android.geo.API_KEY"
+       android:value="AIzaSyDXTRQhecUFLgS4BNzLhsP-Mp-9CCdwVKg"/>
+      <activity
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize">
+     
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>
