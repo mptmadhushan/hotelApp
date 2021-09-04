@@ -44,7 +44,7 @@ export default function Home({navigation}) {
       )
       .then(function (response) {
         // console.log('lca', response.data.results[0].formatted_address);
-        console.log('response 🧑‍🚀🍀', response.data);
+        // console.log('response 🧑‍🚀🍀', response.data);
         const locationName = response.data.results[0].formatted_address;
         var myArray = locationName.split(',');
         console.log('myArray[0] 🚂🚂');

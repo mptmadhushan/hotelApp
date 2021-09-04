@@ -37,7 +37,7 @@ const Location = ({route, navigation}) => {
 
   const initialCurrentLocation = {
     streetName: 'Colombo',
-    // near race co
+    // // near race co
     // gps: {
     //   latitude: 6.9057696676889115,
     //   longitude: 79.86027893592619,
@@ -104,6 +104,7 @@ const Location = ({route, navigation}) => {
 
     APIKit.post(`/book`, payload).then(onSuccess).catch(onFailure);
   };
+
   const getHotels = smallest => {
     const newLocation = smallest.location.name;
     console.log(':sad', packages);
@@ -126,6 +127,7 @@ const Location = ({route, navigation}) => {
       .then(onSuccess)
       .catch(onFailure);
   };
+
   const getDirection = (lat1, lon1, lat2, lon2, unit) => {
     var radlat1 = (Math.PI * lat1) / 180;
     var radlat2 = (Math.PI * lat2) / 180;
@@ -468,7 +470,7 @@ const Location = ({route, navigation}) => {
 
   function renderInfo() {
     let Image_Http_URL = {
-      uri: 'https://images.unsplash.com/photo-1602661200615-bbaf890d3f72?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3300&q=80',
+      uri: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80',
     };
     return (
       <View
@@ -523,7 +525,7 @@ const Location = ({route, navigation}) => {
                   {/* {category.hotel_name} */}
 
                   <Image
-                    source={Image_Http_URL}
+                    source={{uri: hotel.image}}
                     resizeMode="contain"
                     style={{
                       resizeMode: 'cover',

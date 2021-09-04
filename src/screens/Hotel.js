@@ -54,7 +54,7 @@ const HotelScreen = ({route, navigation}) => {
 
   const toNearBy = bHotel => {
     console.log(':sad', bHotel);
-    navigation.navigate('NearBy', {bHotel});
+    navigation.navigate('NearBy', {bHotel});//to nearby
   };
 
   const getNearBy = () => {
