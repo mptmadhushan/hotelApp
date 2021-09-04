@@ -13,21 +13,27 @@ export default function OnBoard({navigation}) {
     <ImageBackground
       style={styles.container}
       source={require('../assets/images/valeria-andersson-0IGhARplNzY-unsplash.jpg')}>
-      <TouchableOpacity
-        onPress={() => {
-          // navigation.navigate('Home');
-          navigation.navigate('LogIn');
-        }}
-        style={styles.btn}>
-        <Text style={styles.btnText}>Let's Tour</Text>
-      </TouchableOpacity>
       <Text style={styles.title}>Work save</Text>
       <Text style={styles.title2}>Travel Repeat</Text>
+      <View style={styles.container2}>
+        <TouchableOpacity
+          onPress={() => {
+            // navigation.navigate('Home');
+            navigation.navigate('LogIn');
+          }}
+          style={styles.btn}>
+          <Text style={styles.btnText}>Let's Tour</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
   container: {flex: 1},
+  container2: {
+    width: SIZES.width,
+    alignItems: 'flex-end',
+  },
   btn: {
     backgroundColor: COLORS.secondary,
     height: 40,
@@ -55,6 +61,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 40,
     marginLeft: SIZES.width * 0.5,
+    marginTop: SIZES.height * 0.7,
   },
   title2: {
     color: COLORS.white,

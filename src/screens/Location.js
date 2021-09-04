@@ -37,23 +37,23 @@ const Location = ({route, navigation}) => {
 
   const initialCurrentLocation = {
     streetName: 'Colombo',
-    //near race co
+    // near race co
     // gps: {
     //   latitude: 6.9057696676889115,
     //   longitude: 79.86027893592619,
     // },
 
-    // vihara
-    // gps: {
-    //   latitude: 6.914376,
-    //   longitude: 79.864088,
-    // },
-
-    // ccc
+    // // vihara
     gps: {
-      latitude: 6.924152501842479,
-      longitude: 79.85221046796326,
+      latitude: 6.914376,
+      longitude: 79.864088,
     },
+
+    // // ccc
+    // gps: {
+    //   latitude: 6.924152501842479,
+    //   longitude: 79.85221046796326,
+    // },
   };
   const nearbyLocation = {
     location: {
@@ -105,8 +105,9 @@ const Location = ({route, navigation}) => {
     APIKit.post(`/book`, payload).then(onSuccess).catch(onFailure);
   };
   const getHotels = smallest => {
+    const newLocation = smallest.location.name;
     console.log(':sad', packages);
-    console.log('get hotels', smallest.location.name);
+    console.log(newLocation);
     const onSuccess = ({data}) => {
       console.log(data);
       setHotels(data);
@@ -121,7 +122,9 @@ const Location = ({route, navigation}) => {
 
     // Show spinner when call is made
 
-    APIKit.get(`/hotels/find/${packages}/ccc`).then(onSuccess).catch(onFailure);
+    APIKit.get(`/hotels/find/${packages}/${newLocation}`)
+      .then(onSuccess)
+      .catch(onFailure);
   };
   const getDirection = (lat1, lon1, lat2, lon2, unit) => {
     var radlat1 = (Math.PI * lat1) / 180;
@@ -193,7 +196,7 @@ const Location = ({route, navigation}) => {
       code: '0001',
       lat: '6.905141258229491',
       lng: ' 79.86350831547918',
-      location: 'Race Course Ground',
+      location: 'Race Course',
     },
     {
       code: '0002',
@@ -205,7 +208,7 @@ const Location = ({route, navigation}) => {
       code: '0003',
       lat: '6.914976444483723',
       lng: '79.86291069755504',
-      location: 'Viharamahadevi Park',
+      location: 'Viharamaha devi park',
     },
   ];
   function getLocation() {

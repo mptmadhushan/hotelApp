@@ -43,31 +43,46 @@ const LoginScreen = ({navigation}) => {
   const onPressLogin = () => {
     const username = userEmail;
     const password = userPassword;
+
     const payload = {username, password};
     console.log('send data', payload);
+    if (!userEmail) {
+      Toast.showWithGravity('Please enter username', Toast.LONG, Toast.TOP);
+    }
+    if (!userPassword) {
+      Toast.showWithGravity('Please enter password', Toast.LONG, Toast.TOP);
+    } else {
+      const onSuccess = ({data}) => {
+        setLoading(false);
+        storeData(data);
+        console.log('suc', data);
+      };
 
-    const onSuccess = ({data}) => {
-      setLoading(false);
-      storeData(data);
-      console.log('suc', data);
-    };
+      const onFailure = error => {
+        if (error.response) {
+          console.log(error.response.data);
+          Toast.showWithGravity(
+            error.response.data.message,
+            Toast.LONG,
+            Toast.TOP,
+          );
 
-    const onFailure = error => {
-      console.log('error', error);
-      setLoading(false);
+          // console.log(error.response.status);
+          // console.log(error.response.headers);
+        }
+        // this.setState({errors: error.response.data, isLoading: false});
+      };
 
-      // this.setState({errors: error.response.data, isLoading: false});
-    };
+      // Show spinner when call is made
+      setLoading(true);
 
-    // Show spinner when call is made
-    setLoading(true);
-
-    APIKit.post('/auth/signin', payload).then(onSuccess).catch(onFailure);
+      APIKit.post('/auth/signin', payload).then(onSuccess).catch(onFailure);
+    }
   };
   return (
     <ImageBackground
       style={styles.mainBody}
-      source={require('../assets/images/valeria-andersson-0IGhARplNzY-unsplash.jpg')}>
+      source={require('../assets/images/login.jpg')}>
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
@@ -109,7 +124,7 @@ const LoginScreen = ({navigation}) => {
                 ]}
                 onChangeText={UserEmail => setUserEmail(UserEmail)}
                 placeholder="Username"
-                placeholderTextColor={COLORS.white}
+                placeholderTextColor={COLORS.black}
                 autoCapitalize="none"
                 keyboardType="email-address"
                 returnKeyType="next"
@@ -138,7 +153,7 @@ const LoginScreen = ({navigation}) => {
                 ]}
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
                 placeholder="Password" //12345
-                placeholderTextColor={COLORS.white}
+                placeholderTextColor={COLORS.black}
                 keyboardType="default"
                 ref={passwordInputRef}
                 onSubmitEditing={Keyboard.dismiss}
@@ -197,7 +212,7 @@ const styles = StyleSheet.create({
   SectionStyle: {
     // backgroundColor: COLORS.secondary,
     borderRadius: 30,
-    borderColor: COLORS.white,
+    borderColor: COLORS.black,
     borderWidth: 1,
     height: 40,
     marginRight: 35,
@@ -206,7 +221,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     backgroundColor: COLORS.secondary,
     borderWidth: 0,
-    color: COLORS.white,
+    color: COLORS.black,
     height: 40,
     width: 130,
     marginTop: 20,
@@ -217,7 +232,7 @@ const styles = StyleSheet.create({
   buttonStyle2: {
     backgroundColor: COLORS.primary,
     borderWidth: 0,
-    color: COLORS.white,
+    color: COLORS.black,
     height: 30,
     width: 130,
     alignItems: 'center',
@@ -231,7 +246,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonTextStyle2: {
-    color: '#FFFFFF',
+    color: '#111',
     fontSize: 10,
     fontWeight: 'bold',
     textAlign: 'right',
@@ -242,7 +257,7 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: COLORS.white,
+    color: COLORS.black,
     paddingLeft: 15,
     paddingRight: 15,
     width: SIZES.width * 0.7,
