@@ -43,17 +43,17 @@ const Location = ({route, navigation}) => {
     //   longitude: 79.86027893592619,
     // },
 
-    // // vihara
-    gps: {
-      latitude: 6.914376,
-      longitude: 79.864088,
-    },
+    // // // vihara
+    // gps: {
+    //   latitude: 6.914376,
+    //   longitude: 79.864088,
+    // },
 
     // // ccc
-    // gps: {
-    //   latitude: 6.924152501842479,
-    //   longitude: 79.85221046796326,
-    // },
+    gps: {
+      latitude: 6.924152501842479,
+      longitude: 79.85221046796326,
+    },
   };
   const nearbyLocation = {
     location: {
@@ -104,6 +104,17 @@ const Location = ({route, navigation}) => {
 
     APIKit.post(`/book`, payload).then(onSuccess).catch(onFailure);
   };
+
+  function getLocationNearest() {
+    return fetch('127.0.0.1:5000')
+      .then(response => response.json())
+      .then(responseJson => {
+        return responseJson;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   const getHotels = smallest => {
     const newLocation = smallest.location.name;
@@ -240,6 +251,7 @@ const Location = ({route, navigation}) => {
     getData();
     getUserData();
     getDire();
+    getLocationNearest();
     console.log('toLocation', toLocation);
     let fromLoc = initialCurrentLocation.gps;
     let toLoc = nearbyLocation.location;

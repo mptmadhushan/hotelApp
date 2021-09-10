@@ -108,12 +108,22 @@ export default function Home({navigation}) {
   let Image_Http_URL = {
     uri: 'https://images.unsplash.com/photo-1613429547334-553cddaa781f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1867&q=80',
   };
-
+  const logOut = async () => {
+    try {
+      await AsyncStorage.clear();
+      navigation.navigate('OnBoard');
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.rowNorm}>
         <Icon name="location-sharp" size={20} color={COLORS.secondary} />
         <Text style={styles.title2}>{streetName}</Text>
+        <TouchableOpacity onPress={() => logOut()} style={styles.btnLog}>
+          <Text style={styles.title2}>Log Out</Text>
+        </TouchableOpacity>
       </View>
       <View>
         <Text style={styles.title1}>Explore</Text>
@@ -172,6 +182,25 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     margin: 40,
     // width: SIZES.width * 0.8,
+  },
+  btnLog: {
+    backgroundColor: COLORS.secondary,
+    height: 40,
+    width: 100,
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderTopLeftRadius: 30,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'red',
+    shadowOffset: {
+      width: 12,
+      height: 12,
+    },
+    shadowOpacity: 0.98,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
   title2: {
     color: COLORS.back,

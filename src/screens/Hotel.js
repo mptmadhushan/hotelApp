@@ -54,7 +54,7 @@ const HotelScreen = ({route, navigation}) => {
 
   const toNearBy = bHotel => {
     console.log(':sad', bHotel);
-    navigation.navigate('NearBy', {bHotel});//to nearby
+    navigation.navigate('NearBy', {bHotel}); //to nearby
   };
 
   const getNearBy = () => {
@@ -464,7 +464,7 @@ const HotelScreen = ({route, navigation}) => {
                   {/* {category.hotel_name} */}
 
                   <Image
-                    source={Image_Http_URL}
+                    source={{uri: bHotel.image}}
                     resizeMode="contain"
                     style={{
                       resizeMode: 'cover',
