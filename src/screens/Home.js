@@ -122,7 +122,7 @@ export default function Home({navigation}) {
         <Icon name="location-sharp" size={20} color={COLORS.secondary} />
         <Text style={styles.title2}>{streetName}</Text>
         <TouchableOpacity onPress={() => logOut()} style={styles.btnLog}>
-          <Text style={styles.title2}>Log Out</Text>
+          <Text style={styles.text001}>Log Out</Text>
         </TouchableOpacity>
       </View>
       <View>
