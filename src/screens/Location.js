@@ -23,6 +23,7 @@ const Location = ({route, navigation}) => {
   const mapView = React.useRef();
 
   const [packages, setPackage] = React.useState('');
+  const [nearLocation, setNearLocation] = React.useState('');
   const [user, setUser] = React.useState('');
   const [hotels, setHotels] = React.useState([]);
   // const [location, setLocation] = React.useState('');
@@ -109,7 +110,9 @@ const Location = ({route, navigation}) => {
     return fetch('127.0.0.1:5000')
       .then(response => response.json())
       .then(responseJson => {
-        return responseJson;
+        setNearLocation(responseJson);
+        console.log(nearLocation);
+        // return responseJson;
       })
       .catch(error => {
         console.error(error);

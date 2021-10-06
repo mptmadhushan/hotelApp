@@ -58,24 +58,32 @@ export default function Home({navigation}) {
   const [packages, setData] = useState('');
   const [streetName, setStreetName] = React.useState('');
 
-  // const data = [
-  //   {
-  //     pkgName: 'pkg1',
-  //     pkgPrice: '5000',
-  //   },
-  //   {
-  //     pkgName: 'pkg2',
-  //     pkgPrice: '15000',
-  //   },
-  //   {
-  //     pkgName: 'pkg3',
-  //     pkgPrice: '30000',
-  //   },
-  //   {
-  //     pkgName: 'pkg4',
-  //     pkgPrice: '50000',
-  //   },
-  // ];
+  const data = [
+    {
+      pkgName: 'pkg1',
+      pkgPrice: '0 - 5000',
+      src: require('../assets/p1.jpeg'),
+      package: 5000,
+    },
+    {
+      pkgName: 'pkg2',
+      pkgPrice: '15000 - 30000',
+      src: require('../assets/p2.jpeg'),
+      package: 15000,
+    },
+    {
+      pkgName: 'pkg3',
+      pkgPrice: '30000 - 50000',
+      src: require('../assets/p3.jpeg'),
+      package: 30000,
+    },
+    {
+      pkgName: 'pkg4',
+      pkgPrice: '50000+',
+      src: require('../assets/p4.jpeg'),
+      package: 50000,
+    },
+  ];
 
   const toLocation = async value => {
     try {
@@ -130,9 +138,9 @@ export default function Home({navigation}) {
         <Text style={styles.title1}>Colombo</Text>
       </View>
       <Text style={styles.text001}>Select Package</Text>
-      {packages ? (
+      {data ? (
         <Swiper style={styles.wrapper} showsButtons={false}>
-          {packages.map((item, index) => (
+          {data.map((item, index) => (
             <TouchableOpacity
               onPress={() => toLocation(item.package)}
               key={item.package}
@@ -148,7 +156,7 @@ export default function Home({navigation}) {
                   padding: 20,
                 }}>
                 <Image
-                  source={Image_Http_URL}
+                  source={item.src}
                   resizeMode="contain"
                   style={{
                     resizeMode: 'cover',
@@ -163,7 +171,7 @@ export default function Home({navigation}) {
                 </Text>
               </View>
               <Text style={[styles.text, {padding: 10}]}>
-                LKR.{item.package}
+                LKR.{item.pkgPrice}
               </Text>
             </TouchableOpacity>
           ))}
@@ -218,5 +226,8 @@ const styles = StyleSheet.create({
   rowNorm: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  text: {
+    textAlign: 'center',
   },
 });
