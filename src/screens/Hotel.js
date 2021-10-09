@@ -96,7 +96,7 @@ const HotelScreen = ({route, navigation}) => {
     // Show spinner when call is made
 
     APIKitGoogle.get(
-      `/json?components=locality:${hotel.hotel_name}|country:LK&key=AIzaSyDXTRQhecUFLgS4BNzLhsP-Mp-9CCdwVKg`,
+      `/json?components=locality:${hotel.hotel_name}|country:LK&key=AIzaSyBtHq3XrOo46QVQ5aCrxp-upRjiKxzKfpQ`,
     )
       .then(onSuccess)
       .catch(onFailure);
@@ -108,7 +108,7 @@ const HotelScreen = ({route, navigation}) => {
     console.log(lat, lng);
     axios
       .get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBw9KFdObw6LqsJJR0Mln1acv4nqjVk7sg`,
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBtHq3XrOo46QVQ5aCrxp-upRjiKxzKfpQ`,
       )
       .then(function (response) {
         // console.log('lca', response.data.results[0].formatted_address);

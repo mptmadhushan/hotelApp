@@ -93,7 +93,7 @@ const NearByScreen = ({route, navigation}) => {
     // Show spinner when call is made
 
     APIKitGoogle.get(
-      `/json?components=locality:${nearByPlace.near_by_place}|country:LK&key=AIzaSyDXTRQhecUFLgS4BNzLhsP-Mp-9CCdwVKg`,
+      `/json?components=locality:${nearByPlace.near_by_place}|country:LK&key=AIzaSyBtHq3XrOo46QVQ5aCrxp-upRjiKxzKfpQ`,
     )
       .then(onSuccess)
       .catch(onFailure);
@@ -123,7 +123,7 @@ const NearByScreen = ({route, navigation}) => {
     // Show spinner when call is made
 
     APIKitGoogle.get(
-      `/json?components=locality:${bHotel.near_by_place}|country:LK&key=AIzaSyDXTRQhecUFLgS4BNzLhsP-Mp-9CCdwVKg`,
+      `/json?components=locality:${bHotel.near_by_place}|country:LK&key=AIzaSyBtHq3XrOo46QVQ5aCrxp-upRjiKxzKfpQ`,
     )
       .then(onSuccess)
       .catch(onFailure);
