@@ -420,7 +420,7 @@ const NearByScreen = ({route, navigation}) => {
                   {/* {category.hotel_name} */}
 
                   <Image
-                    source={Image_Http_URL}
+                    source={{uri: nearByPlace.image}}
                     resizeMode="contain"
                     style={{
                       resizeMode: 'cover',
