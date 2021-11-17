@@ -35,7 +35,12 @@ const LoginScreen = ({navigation}) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('@storage_Key', jsonValue);
-      navigation.navigate('Home');
+      console.log('jsonValue.roles', value.roles);
+      if (value.roles[0] === 'ROLE_ADMIN') {
+        navigation.navigate('AdminDash');
+      } else {
+        navigation.navigate('Home');
+      }
     } catch (e) {
       // saving error
     }

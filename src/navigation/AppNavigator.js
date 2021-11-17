@@ -8,6 +8,11 @@ import Location from '../screens/Location';
 import Hotel from '../screens/Hotel';
 import NearBy from '../screens/NearBy';
 import Register from '../screens/Register';
+import AdminHotels from '../screens/AdminHotels';
+import AdminNearBy from '../screens/AdminNearBy';
+import AdminDash from '../screens/AdminDash';
+import AddHotel from '../screens/AddHotel';
+import AddNearBy from '../screens/AddNearBy';
 import {TapGestureHandler} from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
@@ -16,7 +21,7 @@ function MainStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="OnBoard"
+        initialRouteName="AdminDash"
         screenOptions={{
           headerShown: TapGestureHandler,
         }}>
@@ -26,14 +31,39 @@ function MainStackNavigator() {
           component={Home}
         />
         <Stack.Screen
+          name="AddHotel"
+          options={{headerShown: false}}
+          component={AddHotel}
+        />
+        <Stack.Screen
+          name="AdminNearBy"
+          options={{headerShown: false}}
+          component={AdminNearBy}
+        />
+        <Stack.Screen
+          name="AdminHotels"
+          options={{headerShown: false}}
+          component={AdminHotels}
+        />
+        <Stack.Screen
           name="OnBoard"
           options={{headerShown: false}}
           component={OnBoard}
         />
         <Stack.Screen
+          name="AddNearBy"
+          options={{headerShown: false}}
+          component={AddNearBy}
+        />
+        <Stack.Screen
           name="LogIn"
           options={{headerShown: false}}
           component={LogIn}
+        />
+        <Stack.Screen
+          name="AdminDash"
+          options={{headerShown: false}}
+          component={AdminDash}
         />
         <Stack.Screen
           name="Register"
