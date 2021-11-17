@@ -45,7 +45,7 @@ const RegisterScreen = ({navigation}) => {
     const email = userEmail;
     const password = userPassword;
     const username = userName;
-    const roles = ['admin'];
+    const roles = ['user'];
     const payload = {username, password, email, roles};
     console.log('send data', payload);
 
