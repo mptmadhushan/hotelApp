@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Platform,
@@ -18,6 +18,8 @@ import MapViewDirections from 'react-native-maps-directions';
 import {COLORS, FONTS, icons, SIZES, GOOGLE_API_KEY} from '../helpers';
 import AsyncStorage from '@react-native-community/async-storage';
 import APIKit from '../helpers/apiKit';
+import {Rating, AirbnbRating} from 'react-native-ratings';
+import GetLocation from 'react-native-get-location';
 
 const Location = ({route, navigation}) => {
   const mapView = React.useRef();
@@ -29,6 +31,7 @@ const Location = ({route, navigation}) => {
   // const [location, setLocation] = React.useState('');
   const [streetName, setStreetName] = React.useState('');
   const [fromLocation, setFromLocation] = React.useState(null);
+  const [currLocation, setCurrLocation] = React.useState(null);
   const [toLocation, setToLocation] = React.useState(null);
   const [region, setRegion] = React.useState(null);
 
@@ -62,8 +65,21 @@ const Location = ({route, navigation}) => {
       longitude: 79.86422714747269,
     },
   };
+  useEffect(() => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        console.log('location --->', location);
+        setCurrLocation(location);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn('location error-->', code, message);
+      });
+  }, []);
   const getData = async () => {
-    console.log('cis');
     try {
       const jsonValue = await AsyncStorage.getItem('@package');
       const packageName = JSON.parse(jsonValue);
@@ -74,7 +90,6 @@ const Location = ({route, navigation}) => {
     }
   };
   const getUserData = async () => {
-    console.log('cis');
     try {
       const jsonValue = await AsyncStorage.getItem('@storage_Key');
       const packageName = JSON.parse(jsonValue);
@@ -90,7 +105,7 @@ const Location = ({route, navigation}) => {
     console.log(':setUser', user);
     const payload = {hotel, user};
     const onSuccess = ({data}) => {
-      console.log(data);
+      // console.log(data);
       navigation.navigate('Hotel', {hotel});
     };
 
@@ -111,7 +126,7 @@ const Location = ({route, navigation}) => {
       .then(response => response.json())
       .then(responseJson => {
         setNearLocation(responseJson);
-        console.log(nearLocation);
+        // console.log(nearLocation);
         // return responseJson;
       })
       .catch(error => {
@@ -124,7 +139,7 @@ const Location = ({route, navigation}) => {
     console.log(':sad', packages);
     console.log(newLocation);
     const onSuccess = ({data}) => {
-      console.log(data);
+      // console.log(data);
       setHotels(data);
     };
 
@@ -258,6 +273,11 @@ const Location = ({route, navigation}) => {
     console.log('toLocation', toLocation);
     let fromLoc = initialCurrentLocation.gps;
     let toLoc = nearbyLocation.location;
+    // const currGps = {
+    //   latitude: currLocation.latitude,
+    //   longitude: currLocation.longitude,
+    // };
+    // let fromLoc = currGps;
     let street = initialCurrentLocation.streetName;
 
     let mapRegion = {
@@ -267,10 +287,8 @@ const Location = ({route, navigation}) => {
       longitudeDelta: Math.abs(fromLoc.longitude - toLoc.longitude) * 2,
     };
 
-    // setRestaurant(restaurant);
-    // setStreetName(street);
     setFromLocation(fromLoc);
-    // setToLocation(toLoc);
+    // currLocation
     setRegion(mapRegion);
   }, [packages]);
 
@@ -491,7 +509,7 @@ const Location = ({route, navigation}) => {
       <View
         style={{
           position: 'absolute',
-          top: SIZES.height * 0.6,
+          top: SIZES.height * 0.5,
           left: 0,
           right: 0,
           alignItems: 'center',
@@ -500,7 +518,7 @@ const Location = ({route, navigation}) => {
           horizontal
           scrollEventThrottle={1}
           showsHorizontalScrollIndicator={false}
-          height={150}
+          height={250}
           style={{
             position: 'absolute',
             top: Platform.OS === 'ios' ? 90 : 80,
@@ -549,6 +567,7 @@ const Location = ({route, navigation}) => {
                       height: SIZES.width * 0.2,
                     }}
                   />
+                  <Rating style={{margin: 4}} ratingCount={5} imageSize={20} />
                   <View
                     style={{
                       flexDirection: 'row',

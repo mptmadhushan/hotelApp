@@ -21,7 +21,7 @@ function MainStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="AdminDash"
+        initialRouteName="OnBoard"
         screenOptions={{
           headerShown: TapGestureHandler,
         }}>

@@ -566,6 +566,17 @@ const HotelScreen = ({route, navigation}) => {
           onPress={() => zoomOut()}>
           <Text style={{...FONTS.body1}}>-</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            backgroundColor: COLORS.primary,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{...FONTS.body2, color: COLORS.white}}>GO</Text>
+        </TouchableOpacity>
       </View>
     );
   }
