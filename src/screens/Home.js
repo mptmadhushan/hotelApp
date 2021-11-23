@@ -7,11 +7,28 @@ import Swiper from 'react-native-swiper';
 import APIKit from '../helpers/apiKit';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import GetLocation from 'react-native-get-location';
 
 export default function Home({navigation}) {
   useEffect(() => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        const currGps = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        console.log('location --->', currGps);
+        console.log('initialCurrentLocation --->', initialCurrentLocation.gps);
+        getLocation(currGps);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn('location error-->', code, message);
+      });
     getPackages();
-    getLocation();
   }, []);
   const initialCurrentLocation = {
     streetName: 'Colombo',
@@ -33,9 +50,9 @@ export default function Home({navigation}) {
       longitude: 79.85221046796326,
     },
   };
-  function getLocation() {
-    const lat = initialCurrentLocation.gps.latitude;
-    const lng = initialCurrentLocation.gps.longitude;
+  function getLocation(currGps) {
+    const lat = currGps.latitude;
+    const lng = currGps.longitude;
     console.log('lat, latlng');
     console.log(lat, lng);
     axios
@@ -48,7 +65,7 @@ export default function Home({navigation}) {
         const locationName = response.data.results[0].formatted_address;
         var myArray = locationName.split(',');
         console.log('myArray[0] 🚂🚂');
-        console.log(myArray[0]);
+        console.log(myArray);
         setStreetName(myArray[0]);
       })
       .catch(function (error) {
@@ -127,8 +144,10 @@ export default function Home({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.rowNorm}>
-        <Icon name="location-sharp" size={20} color={COLORS.secondary} />
-        <Text style={styles.title2}>{streetName}</Text>
+        <View style={styles.rowNorm}>
+          <Icon name="location-sharp" size={20} color={COLORS.secondary} />
+          <Text style={styles.title2}>{streetName}</Text>
+        </View>
         <TouchableOpacity onPress={() => logOut()} style={styles.btnLog}>
           <Text style={styles.text001}>Log Out</Text>
         </TouchableOpacity>
@@ -226,6 +245,7 @@ const styles = StyleSheet.create({
   rowNorm: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   text: {
     textAlign: 'center',

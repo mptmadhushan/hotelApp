@@ -30,7 +30,7 @@ const AddHotel = ({navigation, route}) => {
     const payload = {
       place: place,
       hotel_name: hotel,
-      distance: 123,
+      distance: distance,
       package: item,
       email: email,
     };

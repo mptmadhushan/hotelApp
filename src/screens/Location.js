@@ -23,22 +23,6 @@ import GetLocation from 'react-native-get-location';
 
 const Location = ({route, navigation}) => {
   const mapView = React.useRef();
-
-  const [packages, setPackage] = React.useState('');
-  const [nearLocation, setNearLocation] = React.useState('');
-  const [user, setUser] = React.useState('');
-  const [hotels, setHotels] = React.useState([]);
-  // const [location, setLocation] = React.useState('');
-  const [streetName, setStreetName] = React.useState('');
-  const [fromLocation, setFromLocation] = React.useState(null);
-  const [currLocation, setCurrLocation] = React.useState(null);
-  const [toLocation, setToLocation] = React.useState(null);
-  const [region, setRegion] = React.useState(null);
-
-  const [duration, setDuration] = React.useState(0);
-  const [isReady, setIsReady] = React.useState(false);
-  const [angle, setAngle] = React.useState(0);
-
   const initialCurrentLocation = {
     streetName: 'Colombo',
     // // near race co
@@ -65,20 +49,30 @@ const Location = ({route, navigation}) => {
       longitude: 79.86422714747269,
     },
   };
-  useEffect(() => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        console.log('location --->', location);
-        setCurrLocation(location);
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn('location error-->', code, message);
-      });
-  }, []);
+  const [packages, setPackage] = React.useState('');
+  const [nearLocation, setNearLocation] = React.useState('');
+  const [user, setUser] = React.useState('');
+  const [hotels, setHotels] = React.useState([]);
+  // const [location, setLocation] = React.useState('');
+  const [streetName, setStreetName] = React.useState('');
+  const [fromLocation, setFromLocation] = React.useState(
+    initialCurrentLocation.gps,
+  );
+  const [currLocation, setCurrLocation] = React.useState(null);
+  const [toLocation, setToLocation] = React.useState(nearbyLocation.location);
+  const [region, setRegion] = React.useState(null);
+
+  const [duration, setDuration] = React.useState(0);
+  const [isReady, setIsReady] = React.useState(false);
+  const [angle, setAngle] = React.useState(0);
+
+  // const nearbyLocation = {
+  //   location: {
+  //     latitude: 6.90762293818244,
+  //     longitude: 79.86422714747269,
+  //   },
+  // };
+
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('@package');
@@ -121,8 +115,8 @@ const Location = ({route, navigation}) => {
     APIKit.post(`/book`, payload).then(onSuccess).catch(onFailure);
   };
 
-  function getLocationNearest() {
-    return fetch('127.0.0.1:5000')
+  function getLocationNearest(location) {
+    return fetch(`127.0.0.1:5000/:${location}`)
       .then(response => response.json())
       .then(responseJson => {
         setNearLocation(responseJson);
@@ -135,9 +129,9 @@ const Location = ({route, navigation}) => {
   }
 
   const getHotels = smallest => {
-    const newLocation = smallest.location.name;
+    const newLocation = smallest.location.name || 'ccc';
     console.log(':sad', packages);
-    console.log(newLocation);
+    console.log(smallest);
     const onSuccess = ({data}) => {
       // console.log(data);
       setHotels(data);
@@ -181,18 +175,18 @@ const Location = ({route, navigation}) => {
 
     return dist;
   };
-  const getDire = () => {
-    var poslat = initialCurrentLocation.gps.latitude;
-    var poslng = initialCurrentLocation.gps.longitude;
+  const getDire = currGps => {
+    var poslat = currGps.latitude;
+    var poslng = currGps.longitude;
     var smallest = {
       location: {
         latitude: 6.913660659567421,
         longitude: 79.86175634588763,
         name: '',
-        dist: 1,
+        dist: 5,
       },
     };
-
+    console.log(`object`, poslat);
     for (var i = 0; i < data.length; i++) {
       // console.log(
       //   getDirection(poslat, poslng, data[i].lat, data[i].lng, 'K'),
@@ -211,10 +205,11 @@ const Location = ({route, navigation}) => {
             dist: getDirection(poslat, poslng, data[i].lat, data[i].lng, 'K'),
           },
         };
+      } else {
+        console.log('error smalesr');
       }
     }
-    console.log('smallest', smallest);
-    // console.log('get pack', packages);
+    console.log('smallest-->', smallest);
     setToLocation(smallest.location);
     test;
     const test = setTimeout(function () {
@@ -242,9 +237,9 @@ const Location = ({route, navigation}) => {
       location: 'Viharamaha devi park',
     },
   ];
-  function getLocation() {
-    const lat = initialCurrentLocation.gps.latitude;
-    const lng = initialCurrentLocation.gps.longitude;
+  function getLocation(currGps) {
+    const lat = currGps.latitude;
+    const lng = currGps.longitude;
     console.log('lat, latlng');
     console.log(lat, lng);
     axios
@@ -253,11 +248,8 @@ const Location = ({route, navigation}) => {
       )
       .then(function (response) {
         // console.log('lca', response.data.results[0].formatted_address);
-        console.log('response 🧑‍🚀🍀', response.data);
         const locationName = response.data.results[0].formatted_address;
         var myArray = locationName.split(',');
-        console.log('myArray[0] 🚂🚂');
-        console.log(myArray[0]);
         setStreetName(myArray[0]);
       })
       .catch(function (error) {
@@ -265,10 +257,27 @@ const Location = ({route, navigation}) => {
       });
   }
   React.useEffect(() => {
-    getLocation();
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        const currGps = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        setCurrLocation(currGps);
+        setFromLocation(currGps);
+        getDire(currGps);
+        getLocation(currGps);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn('location error-->', code, message);
+      });
+
     getData();
     getUserData();
-    getDire();
     getLocationNearest();
     console.log('toLocation', toLocation);
     let fromLoc = initialCurrentLocation.gps;
@@ -287,8 +296,7 @@ const Location = ({route, navigation}) => {
       longitudeDelta: Math.abs(fromLoc.longitude - toLoc.longitude) * 2,
     };
 
-    setFromLocation(fromLoc);
-    // currLocation
+    // setFromLocation(fromLoc);
     setRegion(mapRegion);
   }, [packages]);
 

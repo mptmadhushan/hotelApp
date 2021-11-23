@@ -30,7 +30,7 @@ const AddNearBy = ({navigation, route}) => {
     const payload = {
       place: place,
       near_by_place: near_by_place,
-      distance: 123,
+      distance: distance,
       branches: branches,
     };
     console.log('send data', payload);

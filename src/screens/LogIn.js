@@ -32,6 +32,7 @@ const LoginScreen = ({navigation}) => {
 
   const passwordInputRef = createRef();
   const storeData = async value => {
+    //check if user is admin or normal user
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('@storage_Key', jsonValue);

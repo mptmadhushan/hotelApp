@@ -22,22 +22,10 @@ import {COLORS, FONTS, icons, SIZES, GOOGLE_API_KEY} from '../helpers';
 import AsyncStorage from '@react-native-community/async-storage';
 import APIKitGoogle from '../helpers/getLocationData';
 import APIKit from '../helpers/apiKit';
+import GetLocation from 'react-native-get-location';
 
 const HotelScreen = ({route, navigation}) => {
   const mapView = React.useRef();
-
-  const {hotel} = route.params;
-  const [packages, setPackage] = React.useState('');
-  const [booked, setBookHotel] = React.useState([]);
-  const [streetName, setStreetName] = React.useState('');
-  const [fromLocation, setFromLocation] = React.useState(null);
-  const [toLocation, setToLocation] = React.useState(null);
-  const [region, setRegion] = React.useState(null);
-  const [modalVisible, setModalVisible] = React.useState(true);
-  const [duration, setDuration] = React.useState(0);
-  const [isReady, setIsReady] = React.useState(false);
-  const [angle, setAngle] = React.useState(0);
-
   const initialCurrentLocation = {
     streetName: 'Colombo',
     gps: {
@@ -45,6 +33,20 @@ const HotelScreen = ({route, navigation}) => {
       longitude: 79.854344,
     },
   };
+  const {hotel} = route.params;
+  const [packages, setPackage] = React.useState('');
+  const [booked, setBookHotel] = React.useState([]);
+  const [streetName, setStreetName] = React.useState('');
+  const [fromLocation, setFromLocation] = React.useState(
+    initialCurrentLocation.gps,
+  );
+  const [toLocation, setToLocation] = React.useState(null);
+  const [region, setRegion] = React.useState(null);
+  const [modalVisible, setModalVisible] = React.useState(true);
+  const [duration, setDuration] = React.useState(0);
+  const [isReady, setIsReady] = React.useState(false);
+  const [angle, setAngle] = React.useState(0);
+
   const nearbyLocation = {
     location: {
       latitude: 6.90762293818244,
@@ -101,9 +103,9 @@ const HotelScreen = ({route, navigation}) => {
       .then(onSuccess)
       .catch(onFailure);
   };
-  function getLocation() {
-    const lat = initialCurrentLocation.gps.latitude;
-    const lng = initialCurrentLocation.gps.longitude;
+  function getLocation(currGps) {
+    const lat = currGps.latitude;
+    const lng = currGps.longitude;
     console.log('lat, latlng');
     console.log(lat, lng);
     axios
@@ -125,7 +127,22 @@ const HotelScreen = ({route, navigation}) => {
   }
   React.useEffect(() => {
     // getDire();
-    getLocation();
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        const currGps = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        setFromLocation(currGps);
+        getLocation(currGps);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn('location error-->', code, message);
+      });
     console.log(hotel);
     getHotelAddress();
     getNearBy();
@@ -142,7 +159,7 @@ const HotelScreen = ({route, navigation}) => {
     };
 
     // setStreetName(street);
-    setFromLocation(fromLoc);
+    // setFromLocation(fromLoc);
     setToLocation(toLoc);
     setRegion(mapRegion);
   }, [packages]);
