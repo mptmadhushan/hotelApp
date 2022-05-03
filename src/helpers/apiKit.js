@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 let APIKit = axios.create({
-  baseURL: 'https://hotelapp-backend.herokuapp.com/api/',
+  baseURL: 'https://restaurant-ml-app.herokuapp.com/api/v1.0/',
   timeout: 10000,
 });
 
